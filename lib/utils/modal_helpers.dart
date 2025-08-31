@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:seed/screens/home_screen.dart';
-import 'package:seed/theme/design_system.dart';
 import 'package:seed/utils/navigation_helper.dart';
 import 'package:seed/widgets/auth_button.dart';
-import 'package:seed/widgets/primary_button.dart';
 
 Future<T?> showBottomInfo<T>({
   required BuildContext context,
