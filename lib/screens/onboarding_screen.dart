@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:seed/screens/home_screen.dart';
+// removed unused home_screen import
+import 'package:seed/screens/auth/login_screen.dart';
 import 'package:seed/theme/design_system.dart';
 import 'package:seed/utils/navigation_helper.dart';
 import 'package:seed/widgets/onboarding_hero.dart';
@@ -17,29 +19,48 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   final List<String> _images = const [
-    'assets/img/Shipping-Team-OE-768x485.png',
+    'assets/img/3.png',
+    'assets/img/1.jpg',
+    'assets/img/2.jpg',
+    'assets/img/3.png',
+    'assets/img/1.jpg',
+    'assets/img/2.jpg',
+    'assets/img/3.png',
     'assets/img/1.jpg',
     'assets/img/2.jpg',
   ];
   int _index = 0;
+  Timer? _autoTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _autoTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+      if (!mounted) return;
+      final next = (_index + 1) % _images.length;
+      _pageController.animateToPage(
+        next,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeOutCubic,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _autoTimer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+          padding: const EdgeInsets.fromLTRB(20, 12, 0, 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PageDots(count: 3, activeIndex: _index),
-                  _ForwardButton(),
-                ],
-              ),
-              const SizedBox(height: 12),
               Expanded(
                 child: PageView.builder(
                   controller: _pageController,
@@ -49,11 +70,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       (context, i) => OnboardingHero(imagePath: _images[i]),
                 ),
               ),
-              const SizedBox(height: 8),
               Center(
                 child: PageDots(count: _images.length, activeIndex: _index),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               Text(
                 'Your Package,\nOur Commitment',
                 textAlign: TextAlign.center,
@@ -70,9 +90,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black54),
               ),
-              const Spacer(),
+              const SizedBox(height: 24),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _RoundedNavButton(
                     icon: CupertinoIcons.chevron_back,
@@ -85,30 +104,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       }
                     },
                   ),
+                  const SizedBox(width: 24),
                   PrimaryButton(
                     label: 'Start Now',
-                    trailingIcon: CupertinoIcons.chevron_right_2,
+                    trailingIcon: CupertinoIcons.chevron_right,
                     onPressed: () {
                       NavigationHelper.pushReplacementFade(
                         context,
-                        const HomeScreen(),
+                        const LoginScreen(),
                       );
-                    },
-                  ),
-                  _RoundedNavButton(
-                    icon: CupertinoIcons.chevron_forward,
-                    onTap: () {
-                      if (_index < _images.length - 1) {
-                        _pageController.nextPage(
-                          duration: const Duration(milliseconds: 280),
-                          curve: Curves.easeOutCubic,
-                        );
-                      } else {
-                        NavigationHelper.pushReplacementFade(
-                          context,
-                          const HomeScreen(),
-                        );
-                      }
                     },
                   ),
                 ],
@@ -145,14 +149,5 @@ class _RoundedNavButton extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _ForwardButton extends StatelessWidget {
-  const _ForwardButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(width: 48, height: 48);
   }
 }

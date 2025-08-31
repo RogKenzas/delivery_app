@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Go2Fast',
+      title: 'SEED DELIVERY',
       theme: buildAppTheme(),
       home: const SplashScreen(),
     );

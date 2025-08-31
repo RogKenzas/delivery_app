@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PrimaryButton extends StatelessWidget {
+class AuthButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final IconData? trailingIcon;
   final double width;
 
-  const PrimaryButton({
+  const AuthButton({
     super.key,
     required this.label,
     this.onPressed,
     this.trailingIcon,
-    this.width = 260,
+    this.width = double.infinity,
   });
 
   @override

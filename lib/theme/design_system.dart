@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   AppColors._();
 
-  static const Color brandPrimary = Color(0xFFFF7A00); // Orange vif
-  static const Color brandSecondary = Color(0xFFFFA726); // Orange clair
-  static const Color brandDark = Color(0xFFCC5F00); // Orange foncé
+  static const Color brandPrimary = Color(0xFFFF7A00); 
+  static const Color brandSecondary = Color(0xFFFFA726);
+  static const Color brandDark = Color(0xFFCC5F00);
   static const Color neutralWhite = Colors.white;
   static const Color neutralBlack = Color(0xFF101010);
 }
@@ -26,6 +27,7 @@ class AppRadii {
   static const BorderRadius small = BorderRadius.all(Radius.circular(8));
   static const BorderRadius medium = BorderRadius.all(Radius.circular(12));
   static const BorderRadius large = BorderRadius.all(Radius.circular(20));
+  static const BorderRadius fullLarge = BorderRadius.all(Radius.circular(50));
 }
 
 class AppSpacing {
@@ -55,7 +57,7 @@ class AppTextStyles {
 }
 
 ThemeData buildAppTheme() {
-  return ThemeData(
+  final base = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.brandPrimary,
       primary: AppColors.brandPrimary,
@@ -77,4 +79,6 @@ ThemeData buildAppTheme() {
       border: OutlineInputBorder(),
     ),
   );
+
+  return base.copyWith(textTheme: GoogleFonts.poppinsTextTheme(base.textTheme));
 }
